@@ -1159,7 +1159,7 @@ Louisiana,Jefferson Parish,432493
 Louisiana,Jefferson Davis Parish,31368
 Louisiana,Lafayette Parish,244390
 Louisiana,Lafourche Parish,97614
-Louisiana,LaSalle Parish,14892
+Louisiana,La Salle Parish,14892
 Louisiana,Lincoln Parish,46742
 Louisiana,Livingston Parish,140789
 Louisiana,Madison Parish,10951
@@ -1832,7 +1832,7 @@ New Mexico,Cibola County,26675
 New Mexico,Colfax County,11941
 New Mexico,Curry County,48954
 New Mexico,De Baca County,1748
-New Mexico,Doña Ana County,218195
+New Mexico,Dona Ana County,218195
 New Mexico,Eddy County,58460
 New Mexico,Grant County,26998
 New Mexico,Guadalupe County,4300
