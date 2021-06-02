@@ -156,6 +156,9 @@ mdFile.new_paragraph("Exhaustively specify every combination of single and multi
 mdFile.new_paragraph("Partition the graph of a State's adjacent counties into contiguous single and multi-member districts.")
 mdFile.new_paragraph('Prefer districts with fewer members.')
 mdFile.new_paragraph("Prefer districts with smallest deviation in population from average.")
+mdFile.new_paragraph("Multi-member districts would use either single transferrable vote or single non-transferable vote.")
+mdFile.new_header(level=1, title='Code')
+mdFile.new_paragraph('https://github.com/TheRedistricter/countybasedmmds')
 mdFile.new_header(level=1, title='Results')
 
 reps_by_state_abbr = {}
@@ -199,20 +202,20 @@ states_to_remove = []
 for state_abbr in adjs_by_county_by_state_abbr:
     if state_abbr not in reps_by_state_abbr:
         states_to_remove.append(state_abbr)
-for state_abbr in reps_by_state_abbr:
-    if reps_by_state_abbr[state_abbr] < 2:
-        states_to_remove.append(state_abbr)
+#for state_abbr in reps_by_state_abbr:
+#    if reps_by_state_abbr[state_abbr] < 2:
+#        states_to_remove.append(state_abbr)
 for state_abbr in states_to_remove:
     del adjs_by_county_by_state_abbr[state_abbr]
 for state_abbr in states_to_remove:
     if state_abbr in reps_by_state_abbr:
         del reps_by_state_abbr[state_abbr]
-del adjs_by_county_by_state_abbr['HI']
-del reps_by_state_abbr['HI']
+#del adjs_by_county_by_state_abbr['HI']
+#del reps_by_state_abbr['HI']
 
-if not verify_adjs(adjs_by_county_by_state_abbr):
-    print('Adjs not verified')
-    exit()
+#if not verify_adjs(adjs_by_county_by_state_abbr):
+#    print('Adjs not verified')
+#    exit()
 
 pop_by_county_by_state_abbr = {}
 pop_by_state_abbr = {}
@@ -238,7 +241,8 @@ for state_abbr, num_reps in reps_by_state_abbr.items():
     adj_by_county = adjs_by_county_by_state_abbr[state_abbr]
     pop_by_county = pop_by_county_by_state_abbr[state_abbr]
     combos = []
-    findCombinations(num_reps);
+    if num_reps > 1 and state_abbr != 'HI':
+        findCombinations(num_reps);
     best_combo = [num_reps]
     best_combo_score = num_reps
     best_desc_by_district = {}
@@ -279,18 +283,20 @@ for state_abbr, num_reps in reps_by_state_abbr.items():
                 
             print('=================================================')
     print('Best combo for {} is  {} with score {}'.format(state_abbr, best_combo, best_combo_score))
-    list_of_strings = ["District", "Representatives", "Deviation %", "Counties"]
+    list_of_strings = ["District", "Representatives", "Pop. per rep.", "Deviation %", "Counties"]
     for district in sorted(best_desc_by_district.keys()):
         (reps_per_district, counties, pop_per_rep, deviation_pct) = best_desc_by_district[district]
         list_of_strings.append(str(district+1))
-        list_of_strings.append(str(reps_per_district))
+        list_of_strings.append(str(int(reps_per_district)))
+        list_of_strings.append(str(int(pop_per_rep)))
         list_of_strings.append(str(deviation_pct)+'%')
         list_of_strings.append(counties[0])
         for county in counties[1:]:
             list_of_strings.append('')
             list_of_strings.append('')
             list_of_strings.append('')
+            list_of_strings.append('')
             list_of_strings.append(county)
-    mdFile.new_table(columns=4, rows=len(pop_by_county.keys())+1, text=list_of_strings, text_align='left')
+    mdFile.new_table(columns=5, rows=len(pop_by_county.keys())+1, text=list_of_strings, text_align='left')
 
 mdFile.create_md_file() 
